@@ -1,0 +1,13 @@
+diff --git a/docker/Dockerfile b/docker/Dockerfile
+index c3a2b79f8..37b33a75c 100644
+--- a/docker/Dockerfile
++++ b/docker/Dockerfile
+@@ -26,7 +26,7 @@ RUN mix do deps.get, local.rebar --force, deps.compile
+ ADD . .
+ 
+ ARG COIN
+-RUN if [ "$COIN" != "" ]; then sed -i s/"POA"/"${COIN}"/g apps/block_scout_web/priv/gettext/en/LC_MESSAGES/default.po; fi
++RUN perl -0777 -i.original -pe "s/msgid \"Ether\"\nmsgstr \"\"/msgid \"Ether\"\nmsgstr \"${COIN}\"/g" apps/block_scout_web/priv/gettext/en/LC_MESSAGES/default.po
+ 
+ # Run forderground build and phoenix digest
+ RUN mix compile

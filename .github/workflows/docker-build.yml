@@ -38,6 +38,11 @@ jobs:
         run: |
           git clone --recursive -b "${{ github.event.inputs.gitTag }}" --depth 1 https://github.com/poanetwork/blockscout.git
 
+      - name: Patch Dockerfile
+        run: |
+          cd blockscout
+          cat ../Dockerfile.patch | patch -p1
+
       - name: Build Docker Image
         run: |
           cd blockscout
